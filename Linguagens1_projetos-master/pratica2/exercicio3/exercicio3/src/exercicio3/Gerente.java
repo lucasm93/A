@@ -1,51 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package exercicio3;
 
-/**
- *
- * @author thomazerlach
- */
-public class Gerente extends Funcionario {
-    
-    protected static double taxaComissao = 0.05;
-    protected static double taxaExtraSalario = 0.25;
+public class Gerente extends Funcionario{
+    private String senha;
+    private int numVendedores;
     private double vendas = 0;
+    private static double taxaBonus = 0.05;
+    private static double taxaSalario = 0.25;
     
-    public Gerente (String n, String cpf, int reg, double salario) {
-        super(n, cpf, reg, salario);
+    public Gerente(String nome, String cpf, int reg, double sal, String senha){
+        super(nome, cpf, reg, sal);
+        this.senha = senha;
+    }
+    
+    public double getVendas() {
+        return vendas;
     }
     
     @Override
-    public final double calcularBonus(double bIndividual) {
-        return this.vendas*Gerente.taxaComissao + bIndividual+ this.salarioBase*Gerente.taxaExtraSalario;
-    }
-    
-    public double getVendas () {
-        return this.vendas;
-    }
-    
-    public double remuneracaoFinal (double bIndividual) {
-        return this.calcularBonus(bIndividual) + this.salarioBase;
-    }
-    
-    public void realizarVenda(double valorVenda) {
-        if (valorVenda > 0) {
-            this.vendas += valorVenda;
-        }
+    public double calcularBonus(double bIndividual){
+        return Gerente.taxaBonus*this.vendas + Gerente.taxaSalario*this.salarioBase + bIndividual;
     }
     
     @Override
-    public void exibirResumo () {
+    public void exibirResumo(){
         super.exibirResumo();
         System.out.println("Vendas: " + this.vendas);
     }
     
-//    public double getSalarioTotal() {
-//        return this.salarioBase + this.calcularBonus(Concessionaria.bonusIndividual);
-//    }
-    
+    public void realizarVenda(double valor){
+        if (valor > 0){
+            this.vendas += valor;
+        }
+    }
+
+    public double calcularSalario(double bonus){
+        return this.salarioBase + this.calcularBonus(bonus);
+    }
 }

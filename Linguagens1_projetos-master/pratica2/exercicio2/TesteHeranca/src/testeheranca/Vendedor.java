@@ -1,163 +1,113 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package testeheranca;
 
-/**
- *
- * @author thomazerlach
- */
 public class Vendedor {
     protected String nomeCompleto;
     protected String cpf;
     protected int registro;
     protected double salarioBase;
     protected static double taxaComissao = 0.03;
-    protected double horaExtra;
     protected double totalVendas;
-    protected GerenteDeVendas gerente;
+    protected double horaExtra;
+    private int registroGerente;
     
-    public Vendedor (String n, String c, int reg, double salario, double hora) {
-        this.setNome(n);
-        this.setCpf(c);
-        this.setRegistro(reg);
-        this.setSalarioBase(salario);
-        this.setHoraExtra(hora);
+    public Vendedor(String n, String c, int r, double s, double h){
+        this.nomeCompleto = n;
+        this.cpf = c;
+        this.registro = r;
+        this.salarioBase = s;
+        this.horaExtra = h;
     }
     
-    public String getNome () {
+    public String getNomeCompleto(){
         return this.nomeCompleto;
     }
     
-    public final void setNome (String nomeNovo) {
-        this.nomeCompleto = nomeNovo;
+    public void setNomeCompleto(String n){
+        this.nomeCompleto = n;
     }
     
-    public String getCpf () {
+    public String getCpf(){
         return this.cpf;
     }
     
-    public final void setCpf (String cpfNovo) {
-        this.cpf = cpfNovo;
+    public void setCpf(String n){
+        this.cpf = n;
     }
     
-    public int getRegistro () {
+    public int getRegistro(){
         return this.registro;
     }
     
-    public final void setRegistro (int registroNovo) {
-        this.registro = registroNovo;
+    public void setRegistro(int n){
+        this.registro = n;
     }
     
-    public double getHoraExtra () {
-        return this.horaExtra;
-    }
-    
-    public final void setHoraExtra (double horaNova) {
-        this.horaExtra = horaNova;
-    }
-    
-    public double getSalarioBase () {
-        return this.salarioBase;
-    }
-    
-    public final void setSalarioBase (double salarioNovo) {
-        this.salarioBase = salarioNovo;
-    }
-    
-    public static double getTaxa () {
+    public double getTaxaComissao(){
         return Vendedor.taxaComissao;
     }
     
-    public static void setTaxa (double taxaNova) {
-        Vendedor.taxaComissao = taxaNova;
+    public void setTaxaRegistro(double n){
+        Vendedor.taxaComissao = n;
     }
     
-    public String getGerente () {
-        return this.gerente.getNome();
+    public int getRegistroGerente(){
+        return this.registroGerente;
     }
     
-    public final void setGerente (GerenteDeVendas gerenteNovo) {
-        this.gerente = gerenteNovo;
+    public void setSalario(double salario){
+        this.salarioBase = salario;
     }
     
-    public double calcularComissao () {
-        return this.totalVendas * Vendedor.taxaComissao;
-    }
-    
-    public double calcularDecimoTerceiro () {
+    public double getSalario(){
         return this.salarioBase;
     }
     
-    public double calcularFerias () {
-        return this.salarioBase + this.salarioBase/3;
+    public double getHoraExtra(){
+        return this.horaExtra;
     }
     
-    public double salarioDoMes () {
+    public void setHoraExtra(double n){
+        this.horaExtra = n;
+    }
+    
+    public void setRegistroGerente(GerenteVendas g){
+        this.registroGerente = g.getRegistro();
+        g.contabilizarVendedor();
+    }
+    
+    public double calcularComissao(){
+        return this.totalVendas * Vendedor.taxaComissao;
+    }
+    
+    public double calcularDecTer(){
+        return this.salarioBase + 1;
+    }
+    
+    public double calcularSalarioMes(){
         return this.salarioBase + this.horaExtra + this.calcularComissao();
     }
     
-    public void exibirResumo () {
-        System.out.println("Nome: " + this.nomeCompleto);
-        System.out.println("CPF: " + this.cpf);
-        System.out.println("Registro: " + this.registro);
-        System.out.println("Salário total: " + this.salarioDoMes());
-        System.out.println("Comissão: " + this.calcularComissao());
-        System.out.println("Férias: " + this.calcularFerias());
-        System.out.println("13º: " + this.calcularDecimoTerceiro());
-        System.out.println("Vendas: " + this.totalVendas);
+    public double calcularFerias(){
+        return this.salarioBase + this.salarioBase/3;
     }
     
-    public boolean contabilizarVenda (double venda) {
-        if (venda > 0) {
-            this.totalVendas = this.totalVendas + venda;
+    public boolean contabilizarVenda(double valor){
+        if (valor > 0){
+            this.totalVendas = valor + this.totalVendas;
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
-
-    /**
-     * @return the nomeCompleto
-     */
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
-
-    /**
-     * @param nomeCompleto the nomeCompleto to set
-     */
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
-    }
-
-    /**
-     * @return the taxaComissao
-     */
-    public static double getTaxaComissao() {
-        return taxaComissao;
-    }
-
-    /**
-     * @param aTaxaComissao the taxaComissao to set
-     */
-    public static void setTaxaComissao(double aTaxaComissao) {
-        taxaComissao = aTaxaComissao;
-    }
-
-    /**
-     * @return the totalVendas
-     */
-    public double getTotalVendas() {
-        return totalVendas;
-    }
-
-    /**
-     * @param totalVendas the totalVendas to set
-     */
-    public void setTotalVendas(double totalVendas) {
-        this.totalVendas = totalVendas;
+    
+    public void exibirResumo(){
+        System.out.println("Registro: " + this.registro);
+        System.out.println("Nome: " + this.nomeCompleto);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Salario do Mes: " + this.calcularSalarioMes());
+        System.out.println("Comissao: " + this.calcularComissao());
+        System.out.println("Ferias: " + this.calcularFerias());
+        System.out.println("Decimo Terceiro: " + this.calcularDecTer());
     }
 }

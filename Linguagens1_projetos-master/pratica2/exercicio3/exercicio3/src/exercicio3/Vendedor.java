@@ -1,49 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package exercicio3;
 
-/**
- *
- * @author thomazerlach
- */
-public class Vendedor extends Funcionario {
-    
-    protected static double taxaComissao = 0.03;
+public class Vendedor extends Funcionario{
+    private int registroGerente;
     private double vendas = 0;
+    private static double taxaBonus = 0.03;
+       
+    public Vendedor (String nome, String cpf, int reg, double sal, int regGerente){
+        super(nome, cpf, reg, sal);
+        this.registroGerente = regGerente;
+    }
     
-    public Vendedor (String n, String cpf, int reg, double salario) {
-        super(n, cpf, reg, salario);
+    public double getVendas() {
+        return vendas;
     }
     
     @Override
-    public final double calcularBonus(double bIndividual) {
-        return this.vendas*Vendedor.taxaComissao + bIndividual;
+    public double calcularBonus(double bIndividual){
+        return Vendedor.taxaBonus * this.vendas + bIndividual;
     }
     
     @Override
-    public void exibirResumo () {
+    public void exibirResumo(){
         super.exibirResumo();
         System.out.println("Vendas: " + this.vendas);
+        //System.out.println("Salario Mes: " + this.calcularSalario(bonus));
     }
     
-    public double remuneracaoFinal (double bIndividual) {
-        return this.calcularBonus(bIndividual) + this.salarioBase;
-    }
-    
-//    public double getSalarioTotal() {
-//        return this.salarioBase + this.calcularBonus(Concessionaria.bonusIndividual);
-//    }
-    
-    public void realizarVenda(double valorVenda) {
-        if (valorVenda > 0) {
-            this.vendas += valorVenda;
+    public void realizarVenda(double valor){
+        if (valor > 0){
+            this.vendas += valor;
         }
     }
-    
-    public double getVendas () {
-        return this.vendas;
+
+    public double calcularSalario(double bonus){
+        return this.salarioBase + this.calcularBonus(bonus);
     }
 }

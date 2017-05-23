@@ -1,88 +1,68 @@
 package exercicio3;
 
-/**
- *
- * @author thomazerlach
- */
 public class Concessionaria {
-    
-    private int totalFuncionarios;
+    private int totalFuncionarios = 0;
     private double taxaBonus = 0.05;
-    private int nVendedor = 0;
-    private int nGerente = 0;
-    private Vendedor[] vendedor;
-    private Gerente[] gerente;
+    private int nVendedores = 0;
+    private int nGerentes = 0;
+    private Vendedor[] vendedores;
+    private Gerente[] gerentes;
     
-    public Concessionaria (int nVend, int nGer) {
-        vendedor = new Vendedor[nVend];
-        gerente = new Gerente[nGer];
+    public Concessionaria(int nVend, int nGer){
+        vendedores = new Vendedor[nVend];
+        gerentes = new Gerente[nGer];
     }
     
-    private double calcularTotalVendas () {
+    public void setTaxaBonus(double taxaBonus) {
+        this.taxaBonus = taxaBonus;
+    }
+
+    public Vendedor getVendedor(int i) {
+        return vendedores[i];
+    }
+
+    public Gerente getGerente(int i) {
+        return gerentes[i];
+    }
+    
+    private double calcularTotalVendas(){
         double totalVendas = 0;
-        
-        for (int i = 0; i < this.nVendedor; i++) {
-            totalVendas += this.vendedor[i].getVendas();
+        for (int i = 0; i < this.nVendedores; i++){
+            totalVendas += this.vendedores[i].getVendas();
         }
-        
-        for (int i = 0; i < this.nGerente; i++) {
-            totalVendas += this.gerente[i].getVendas();
+        for(int i = 0; i < this.nGerentes; i++){
+            totalVendas += this.gerentes[i].getVendas();
         }
-        
         return totalVendas;
     }
     
-    public boolean novoVendedor (String n, String cpf, int reg, double salario) {
-        boolean result;
-        if (this.nVendedor < this.vendedor.length) {
-            this.vendedor[this.nVendedor] = new Vendedor(n, cpf, reg, salario);
-            this.nVendedor++;
+    public boolean novoVendedor(String nome, String cpf, int reg, double sal, int regGerente){
+        boolean confirma;
+        if (this.nVendedores < this.vendedores.length){
+            this.vendedores[this.nVendedores] = new Vendedor(nome, cpf, reg, sal, regGerente);
+            this.nVendedores++;
             this.totalFuncionarios++;
-            result = true;
-        } else
-            result = false;
-        
-        return result;
+            confirma = true;
+        }
+        else
+            confirma = false;
+        return confirma;
     }
     
-    public boolean novoGerente (String n, String cpf, int reg, double salario) {
-        boolean result;
-        if (this.nGerente < this.gerente.length) {
-            this.gerente[this.nGerente] = new Gerente(n, cpf, reg, salario);
-            this.nGerente++;
+    public boolean novoGerente(String nome, String cpf, int reg, double sal, String senha){
+        boolean confirma;
+        if (this.nGerentes < this.gerentes.length){
+            this.gerentes[this.nGerentes] = new Gerente(nome, cpf, reg, sal, senha);
+            this.nGerentes++;
             this.totalFuncionarios++;
-            result = true;
-        } else
-            result = false;
-        
-        return result;
+            confirma = true;
+        }
+        else
+            confirma = false;
+        return confirma;
     }
     
-    public double calcularBonificacaoVendas () {
-        return (this.calcularTotalVendas() / this.totalFuncionarios) * this.taxaBonus;
-    }
-    
-    public void setTaxaBonus (double tx) {
-        this.taxaBonus = tx;
-    }
-    
-    public Vendedor getVendedor(int i) {
-        return this.vendedor[i];
-    }
-    
-    public Gerente getGerente(int i) {
-        return this.gerente[i];
-    }
-    
-    public int getNumVend (){
-        return this.nVendedor;
-    }
-    
-    public int getNumGer () {
-        return this.nGerente;
-    }
-    
-//    public void bonificacaoConcessionaria() {
-//        this.bonusIndividual = (this.totalVendas/this.totalFuncionarios)*this.taxaBonus;
-//    }
+    public double calcularBonus(){
+        return this.taxaBonus * (this.calcularTotalVendas()/this.totalFuncionarios);
+    }    
 }
